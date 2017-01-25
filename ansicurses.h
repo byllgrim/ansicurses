@@ -10,4 +10,5 @@ int erase(void);
 WINDOW *initscr(void);
 int move(int y, int x);
 int noecho(void);
+int raw(void);
 int refresh(void);

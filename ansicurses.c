@@ -3,7 +3,6 @@
  * 	COLS
  * 	LINES
  * 	TABSIZE
- * 	raw
  * 	printw
  * 	getcurx
  * 	getcury
@@ -38,6 +37,8 @@ int
 cbreak(void)
 {
 	unsetlflag(ICANON);
+	/* TODO ISIG */
+	/* TODO IXOFF */
 	return 1; /* TODO OK */
 }
 
@@ -62,7 +63,6 @@ initscr(void)
 
 	noecho();
 	cbreak(); /* TODO deviate from ncurses default? */
-	/* TODO ISIG in raw? */
 
 	erase();
 	move(0, 0);
@@ -82,6 +82,15 @@ noecho(void)
 {
 	unsetlflag(ECHO);
 	/* TODO check result? */
+	return 1; /* TODO OK */
+}
+
+int
+raw(void)
+{
+	unsetlflag(ISIG);
+	unsetlflag(ICANON);
+	/* TODO IXOFF */
 	return 1; /* TODO OK */
 }
 
