@@ -1,7 +1,5 @@
 /* TODO from curses.h
  * 	stdscr
- * 	COLS
- * 	LINES
  * 	TABSIZE
  * 	printw
  * 	getcurx
@@ -13,6 +11,8 @@
  *	wrefresh
  *	wgetch
  */
+#include <sys/ioctl.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <termios.h>
@@ -31,6 +31,22 @@ unsetlflag(tcflag_t lflag)
 	tcgetattr(STDIN_FILENO, &attr);
 	attr.c_lflag &= ~lflag;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attr);
+}
+
+static void
+updatesize(void)
+{
+	struct winsize w;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	LINES = w.ws_row;
+	COLS = w.ws_col;
+}
+
+static void
+winchhandler(int signo)
+{
+	updatesize();
+	(void)signo;
 }
 
 int
@@ -60,6 +76,13 @@ WINDOW *
 initscr(void)
 {
 	tcgetattr(STDIN_FILENO, &saved_attr);
+
+	updatesize();
+	if (signal(SIGWINCH, winchhandler) == SIG_ERR) {
+		/* TODO ^ not portable! use sigaction? */
+		fprintf(stderr, "cant catch SIGWINCH");
+		exit(EXIT_FAILURE);
+	}
 
 	noecho();
 	cbreak(); /* TODO deviate from ncurses default? */

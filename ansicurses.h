@@ -4,6 +4,9 @@
 
 #define WINDOW void
 
+int COLS;
+int LINES;
+
 int cbreak(void);
 int endwin(void);
 int erase(void);
