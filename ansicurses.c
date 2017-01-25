@@ -6,7 +6,6 @@
  * 	raw
  * 	noecho
  * 	endwin
- * 	getch
  * 	printw
  * 	move
  * 	getcurx
@@ -27,12 +26,6 @@
 
 static struct termios saved_attr;
 
-int
-getch(void)
-{
-	return 0; /* TODO */
-}
-
 WINDOW *
 initscr(void)
 {
@@ -50,6 +43,8 @@ initscr(void)
 	tcgetattr(STDIN_FILENO, &attr);
 	attr.c_lflag &= ~ECHO;
 	tcsetattr (STDIN_FILENO, TCSAFLUSH, &attr);
+	/* TODO unsetattr(ECHO) */
 
+	/* TODO clear screen etc */
 	return NULL;
 }
