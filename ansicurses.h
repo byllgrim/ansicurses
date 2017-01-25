@@ -5,6 +5,7 @@
 #define WINDOW void
 
 int cbreak(void);
+int endwin(void);
 int erase(void);
 WINDOW *initscr(void);
 int move(int y, int x);

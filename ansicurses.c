@@ -4,7 +4,6 @@
  * 	LINES
  * 	TABSIZE
  * 	raw
- * 	endwin
  * 	printw
  * 	getcurx
  * 	getcury
@@ -43,6 +42,13 @@ cbreak(void)
 }
 
 int
+endwin(void)
+{
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &saved_attr);
+	return 1; /* TODO OK */
+}
+
+int
 erase(void)
 {
 	printf(CSI"2J");
@@ -53,7 +59,6 @@ WINDOW *
 initscr(void)
 {
 	tcgetattr(STDIN_FILENO, &saved_attr);
-	/* TODO? atexit(reset_attr); */
 
 	noecho();
 	cbreak(); /* TODO deviate from ncurses default? */
