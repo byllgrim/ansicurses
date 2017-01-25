@@ -4,7 +4,9 @@
 
 #define WINDOW void
 
+int cbreak(void);
 int erase(void);
 WINDOW *initscr(void);
 int move(int y, int x);
+int noecho(void);
 int refresh(void);

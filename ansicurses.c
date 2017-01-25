@@ -4,7 +4,6 @@
  * 	LINES
  * 	TABSIZE
  * 	raw
- * 	noecho
  * 	endwin
  * 	printw
  * 	getcurx
@@ -26,6 +25,23 @@
 
 static struct termios saved_attr;
 
+static void
+unsetlflag(tcflag_t lflag)
+{
+	struct termios attr;
+
+	tcgetattr(STDIN_FILENO, &attr);
+	attr.c_lflag &= ~lflag;
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attr);
+}
+
+int
+cbreak(void)
+{
+	unsetlflag(ICANON);
+	return 1; /* TODO OK */
+}
+
 int
 erase(void)
 {
@@ -36,17 +52,15 @@ erase(void)
 WINDOW *
 initscr(void)
 {
-	struct termios attr;
-
 	tcgetattr(STDIN_FILENO, &saved_attr);
 	/* TODO? atexit(reset_attr); */
 
-	tcgetattr(STDIN_FILENO, &attr);
-	attr.c_lflag &= ~ECHO;
-	tcsetattr (STDIN_FILENO, TCSAFLUSH, &attr);
-	/* TODO unsetattr(ECHO) */
+	noecho();
+	cbreak(); /* TODO deviate from ncurses default? */
+	/* TODO ISIG in raw? */
 
 	erase();
+	move(0, 0);
 	return NULL;
 }
 
@@ -55,6 +69,14 @@ move(int y, int x)
 {
 	printf(CSI"%d;%dH", y+1, x+1);
 
+	return 1; /* TODO OK */
+}
+
+int
+noecho(void)
+{
+	unsetlflag(ECHO);
+	/* TODO check result? */
 	return 1; /* TODO OK */
 }
 
