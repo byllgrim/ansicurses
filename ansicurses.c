@@ -38,12 +38,6 @@ initscr(void)
 {
 	struct termios attr;
 
-	if (!isatty(STDIN_FILENO)) {
-		fprintf(stderr, "not a terminal\n");
-		exit(EXIT_FAILURE);
-		/* TODO die() */
-	}
-
 	tcgetattr(STDIN_FILENO, &saved_attr);
 	/* TODO? atexit(reset_attr); */
 
