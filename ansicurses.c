@@ -29,8 +29,7 @@ static struct termios saved_attr;
 int
 erase(void)
 {
-	/* TODO clear screen */
-	/* TODO move to 0,0 */
+	printf(CSI"2J");
 	return 1; /* TODO OK */
 }
 
@@ -53,7 +52,7 @@ initscr(void)
 	tcsetattr (STDIN_FILENO, TCSAFLUSH, &attr);
 	/* TODO unsetattr(ECHO) */
 
-	/* TODO clear screen etc */
+	erase();
 	return NULL;
 }
 
