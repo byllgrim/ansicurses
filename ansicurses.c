@@ -7,10 +7,8 @@
  * 	noecho
  * 	endwin
  * 	printw
- * 	move
  * 	getcurx
  * 	getcury
- * 	refresh
  * 	mvprintw
  *
  * additionally from libncursesw.a
@@ -25,6 +23,14 @@
 #include "ansicurses.h"
 
 static struct termios saved_attr;
+
+int
+erase(void)
+{
+	/* TODO clear screen */
+	/* TODO move to 0,0 */
+	return 1; /* TODO OK */
+}
 
 WINDOW *
 initscr(void)
@@ -47,4 +53,19 @@ initscr(void)
 
 	/* TODO clear screen etc */
 	return NULL;
+}
+
+int
+move(int y, int x)
+{
+	printf("\033[%d;%dH", y+1, x+1);
+
+	return 1; /* TODO OK */
+}
+
+int
+refresh(void)
+{
+	/* TODO is this a dummy function? */
+	return 1; /* TODO OK */
 }

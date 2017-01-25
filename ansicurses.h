@@ -4,5 +4,7 @@
 
 #define WINDOW void
 
-int getch(void);
+int erase(void);
 WINDOW *initscr(void);
+int move(int y, int x);
+int refresh(void);
