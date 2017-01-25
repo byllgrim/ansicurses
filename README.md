@@ -14,3 +14,6 @@ Most functions of ncurses is unimplemented.
 I only implement what I need to run
 [mvi](https://github.com/byllgrim/mvi).
 If you need anything else, it should be easy send a patch.
+
+Neither does it use alternative buffer.
+Everything is printed in the same terminal that executed the program.
