@@ -22,6 +22,8 @@
 #include <unistd.h>
 #include "ansicurses.h"
 
+#define CSI  "\033["
+
 static struct termios saved_attr;
 
 int
@@ -58,7 +60,7 @@ initscr(void)
 int
 move(int y, int x)
 {
-	printf("\033[%d;%dH", y+1, x+1);
+	printf(CSI"%d;%dH", y+1, x+1);
 
 	return 1; /* TODO OK */
 }
