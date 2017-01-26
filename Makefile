@@ -1,5 +1,6 @@
+CPPFLAGS = -D_POSIX_C_SOURCE=200809L
+CFLAGS = -std=c89 -pedantic -Wall -Wextra ${CPPFLAGS}
 PREFIX = /usr/local
-CFLAGS = -std=c89 -pedantic -Wall -Wextra
 
 OBJ = ansicurses.o
 LIB = libansicurses.a

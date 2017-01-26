@@ -18,5 +18,6 @@ int getcury(WINDOW *win);
 WINDOW *initscr(void);
 int move(int y, int x);
 int noecho(void);
+int printw(const char *fmt, ...);
 int raw(void);
 int refresh(void);
