@@ -1,9 +1,5 @@
 /* TODO from curses.h
- * 	stdscr
- * 	TABSIZE
  * 	printw
- * 	getcurx
- * 	getcury
  * 	mvprintw
  *
  * additionally from libncursesw.a
@@ -22,6 +18,25 @@
 #define CSI  "\033["
 
 static struct termios saved_attr;
+
+static void
+getcurpos(WINDOW *win, int *y, int *x)
+{
+	struct termios tmp_attr, attr;
+	(void)win;
+
+	tcgetattr(0, &tmp_attr);
+	tcgetattr(0, &attr);
+	attr.c_lflag &= ~(ECHO | ICANON);
+	tcsetattr(0, TCSANOW, &attr); /* TODO TCSAFLUSH? */
+
+	printf("\033[6n");
+	scanf("\033[%d;%dR", y, x);
+	*y -= 1;
+	*x -= 1;
+
+	tcsetattr(0, TCSANOW, &tmp_attr);
+}
 
 static void
 unsetlflag(tcflag_t lflag)
@@ -70,6 +85,24 @@ erase(void)
 {
 	printf(CSI"2J");
 	return 1; /* TODO OK */
+}
+
+int
+getcurx(WINDOW *win)
+{
+	int x, y;
+	(void)win;
+	getyx(stdscr, y, x);
+	return x;
+}
+
+int
+getcury(WINDOW *win)
+{
+	int x, y;
+	(void)win;
+	getyx(stdscr, y, x);
+	return y;
 }
 
 WINDOW *
