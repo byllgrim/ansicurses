@@ -2,6 +2,7 @@
  * There are no ifdef guards, because I oppose nested includes.
  */
 
+#define OK (0)
 #define stdscr NULL
 #define TABSIZE 8 /* TODO getenv or such? */
 #define WINDOW void

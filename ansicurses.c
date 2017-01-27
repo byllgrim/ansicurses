@@ -22,7 +22,7 @@ getcurpos(WINDOW *win, int *y, int *x)
 	attr.c_lflag &= ~(ECHO | ICANON);
 	tcsetattr(0, TCSAFLUSH, &attr);
 
-	printf("\033[6n"); /* TODO puts? */
+	printf("\033[6n"); /* TODO write()? */
 	scanf("\033[%d;%dR", y, x);
 	*y -= 1;
 	*x -= 1;
@@ -62,7 +62,7 @@ cbreak(void)
 	unsetlflag(ICANON);
 	/* TODO ISIG */
 	/* TODO IXOFF */
-	return 1; /* TODO OK */
+	return OK;
 }
 
 int
@@ -70,14 +70,14 @@ endwin(void)
 {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &saved_attr);
 	printf("\n");
-	return 1; /* TODO OK */
+	return OK;
 }
 
 int
 erase(void)
 {
 	printf(CSI"2J");
-	return 1; /* TODO OK */
+	return OK;
 }
 
 int
@@ -115,15 +115,14 @@ initscr(void)
 
 	erase();
 	move(0, 0);
-	return NULL;
+	return stdscr;
 }
 
 int
 move(int y, int x)
 {
 	printf(CSI"%d;%dH", y+1, x+1);
-
-	return 1; /* TODO OK */
+	return OK;
 }
 
 int
@@ -131,7 +130,7 @@ noecho(void)
 {
 	unsetlflag(ECHO);
 	/* TODO check result? */
-	return 1; /* TODO OK */
+	return OK;
 }
 
 int
@@ -157,7 +156,7 @@ printw(const char *fmt, ...)
 		putchar(buf[i]); /* TODO utf */
 	}
 
-	return 1; /* TODO OK */
+	return OK;
 }
 
 int
@@ -166,12 +165,12 @@ raw(void)
 	unsetlflag(ISIG);
 	unsetlflag(ICANON);
 	/* TODO IXOFF */
-	return 1; /* TODO OK */
+	return OK;
 }
 
 int
 refresh(void)
 {
 	/* TODO is this a dummy function? */
-	return 1; /* TODO OK */
+	return OK;
 }
